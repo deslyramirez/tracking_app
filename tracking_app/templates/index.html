@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastreo de Paquetes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #fdf6f0;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            margin-top: 50px;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #f39c12;
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+        .form-group label {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #c0392b;
+        }
+        .btn-primary {
+            background-color: #e74c3c;
+            border-color: #e74c3c;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border-radius: 25px;
+        }
+        .btn-primary:hover {
+            background-color: #c0392b;
+            border-color: #c0392b;
+        }
+        .alert {
+            font-size: 1.2rem;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .alert-info {
+            background-color: #f9ebea;
+            color: #2c3e50;
+        }
+        .alert-success {
+            background-color: #f6d7a7;
+            color: #7d3c98;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #e74c3c;
+        }
+        .result-card {
+            background: #fbe3e4;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        .result-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .result-card h4 {
+            color: #f39c12;
+            margin-bottom: 15px;
+        }
+        .result-card .info {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 1rem;
+            color: #7f8c8d;
+        }
+        .footer a {
+            color: #f39c12;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .form-control {
+            border-radius: 25px;
+            padding: 15px;
+            border: 1px solid #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Rastreo de Paquetes</h1>
+        
+        <!-- Formulario de rastreo -->
+        <form method="POST" class="mt-4">
+            <div class="form-group">
+                <label for="tracking_number">Número de Rastreo:</label>
+                <input type="text" class="form-control" id="tracking_number" name="tracking_number" placeholder="Ej: ITD-3-12345678" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Consultar</button>
+        </form>
+
+        <!-- Resultado de la consulta -->
+        <div class="mt-4">
+            {% if tracking_info %}
+                {% if tracking_info.error %}
+                    <div class="alert alert-danger">
+                        {{ tracking_info.error }}
+                    </div>
+                {% else %}
+                    <div class="result-card">
+                        <h4>Detalles del Paquete</h4>
+                        <div class="info"><strong>Estado:</strong> {{ tracking_info.status }}</div>
+                        <div class="info"><strong>Destino:</strong> {{ tracking_info.destination }}</div>
+                        <div class="info"><strong>Fecha de Envío:</strong> {{ tracking_info.shipping_date }}</div>
+                        <div class="info"><strong>Fecha de Entrega Esperada:</strong> {{ tracking_info.expected_delivery }}</div>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="alert alert-info">
+                    Ingresa un número de rastreo para consultar el estado.
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 Sistema de Rastreo | <a href="#">Desly Ramirez</a></p>
+        </div>
+    </div>
+</body>
+</html>
